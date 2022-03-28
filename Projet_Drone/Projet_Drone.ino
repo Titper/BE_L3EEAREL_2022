@@ -1,5 +1,6 @@
 #include <Wire.h>
 
+
 #define CHANNEL1 0
 #define CHANNEL2 1
 #define CHANNEL3 2
@@ -22,6 +23,8 @@
 #define STARTING 1
 #define STARTED  2
 
+#define Minmax_min 1000
+#define Minmax_max 2000
 //------------------------------------------------Recepteur variable-----------------------------------------------------------------
 
 volatile unsigned long current_time;
@@ -88,7 +91,7 @@ int status = STOPPED;
 
 void setup() {
 
-    Serial.begin(9600);
+    Serial.begin(57600);
     Wire.begin();
     TWBR =12;
     
@@ -390,13 +393,24 @@ void pidController() {
         pulse_length_esc2 = throttle + roll_pid - pitch_pid - yaw_pid;
         pulse_length_esc3 = throttle - roll_pid + pitch_pid - yaw_pid;
         pulse_length_esc4 = throttle + roll_pid + pitch_pid + yaw_pid;
+        //afficahge des valeurs pour le debugage, mettre en commentaire si innutilisé
+        Serial.print("TH :");
+        Serial.print(throttle);
+        Serial.print("\tRO :");
+        Serial.print(roll_pid);
+        Serial.print("\tPI :");
+        Serial.print(pitch_pid);
+        Serial.print("\tYA :");
+        Serial.print(yaw_pid);
+        Serial.print("\t == PULSE :");
+        Serial.println(pulse_length_esc1);
     }
 
     // Prevent out-of-range-values
-    pulse_length_esc1 = minMax(pulse_length_esc1, 1100, 2000);
-    pulse_length_esc2 = minMax(pulse_length_esc2, 1100, 2000);
-    pulse_length_esc3 = minMax(pulse_length_esc3, 1100, 2000);
-    pulse_length_esc4 = minMax(pulse_length_esc4, 1100, 2000);
+    pulse_length_esc1 = minMax(pulse_length_esc1, Minmax_min, Minmax_max);
+    pulse_length_esc2 = minMax(pulse_length_esc2, Minmax_min, Minmax_max);
+    pulse_length_esc3 = minMax(pulse_length_esc3, Minmax_min, Minmax_max);
+    pulse_length_esc4 = minMax(pulse_length_esc4, Minmax_min, Minmax_max);
 }
 
 bool isStarted() {
