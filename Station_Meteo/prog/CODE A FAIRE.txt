@@ -1,0 +1,13 @@
+Importer une image et animation sur le TTGO
+
+TEST du capteur sur UNO +TTGO
+
+Affichage des resultat par WIFI sur une page web    (Code QR pour ladresse IP et l'accee via web)
+
+Ajouter les deux boutons sur le prog
+
+Ajouter un info sur le wifi pour le bouton 1 et info local sur les temp hume... avec le bouton 2
+
+Autonomi du projet sur batterie et PV
+
+END...

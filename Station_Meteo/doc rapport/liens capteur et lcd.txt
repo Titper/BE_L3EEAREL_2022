@@ -1,0 +1,20 @@
+https://wiki.seeedstudio.com/Grove-I2C_High_Accuracy_Temp&Humi_Sensor-SHT35/   ------> lien capteur + codes
+https://f-leb.developpez.com/tutoriels/arduino/bus-i2c/#                ------> lien bus I2C
+
+
+
+http://destroyedlolo.info/ESP/Humidite_SHT31/                   ------> SHT31 
+https://www.mouser.com/datasheet/2/682/Sensirion_Humidity_Sensors_SHT3x_Datasheet_digital-971521.pdf   ------> DOC SHT31
+
+
+
+https://wiki.seeedstudio.com/Grove-16x2_LCD_Series/        ------> LCD 
+https://arduinogetstarted.com/tutorials/arduino-lcd-i2c     ------> LCD SUR I2C
+
+
+
+https://components101.com/sensors/bh1750-ambient-light-sensor     ------>lien BH1750
+https://moineau-instruments.com/content/23-lumiere-et-rayonnement-lumineux     ------>lien BH1750 et lumiere
+
+
+https://wiki.seeedstudio.com/Grove-High-Precision-Barometric-Pressure-Sensor-DPS310/     ------>lien DPS310

@@ -1,0 +1,14 @@
+
+
+
+
+
+cateur SHT31 sur ESP32:   https://www.youtube.com/watch?v=u7277VShso4&t=399s
+
+
+
+configuration de la carte: https://www.youtube.com/watch?v=UE1mtlsxfKM
+
+
+
+test wifi : min: 7.35  https://www.youtube.com/watch?v=-7O3qKWU6DU
