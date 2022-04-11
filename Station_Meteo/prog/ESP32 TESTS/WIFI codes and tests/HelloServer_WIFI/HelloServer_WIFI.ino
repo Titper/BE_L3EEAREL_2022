@@ -4,15 +4,15 @@
 #include <ESPmDNS.h>
 
 const char* ssid = "Yosri's Galaxy S20 FE 5G";
-const char* password = "ildr7404";
+const char* password = "ildr7404"; 
 
 WebServer server(80);
 
 const int led = 13;
-
+//s'(drtyfguhijk
 void handleRoot() {
   digitalWrite(led, 1);
-  server.send(200, "text/plain", "hello from esp32!!!!!!!");
+  server.send(200, "text/plain", "hi from esp32!!!!!!!");
   digitalWrite(led, 0);
 }
 
