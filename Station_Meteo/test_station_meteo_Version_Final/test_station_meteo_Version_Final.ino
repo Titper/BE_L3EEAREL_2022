@@ -1,0 +1,261 @@
+
+
+
+#include "rgb_lcd.h"
+#include "DHT.h"
+
+
+rgb_lcd lcd; // déclaration en variable globale d'un écran lcd
+DHT dht(2, DHT22);
+
+
+float pluie = 0;
+int compteur = 0 ;
+float vitesse_MAX =0;
+float Pluie_MAX = 0;
+int front_Montant=0;
+int val_precedent =0;
+unsigned long dureeHaute =0; 
+unsigned long dureeBasse =0;
+int pluie_precedent =1;
+
+
+
+void setup() {
+  
+  Serial.begin(115200);
+  // PIN_ANEMOMETRE = A2
+   //PIN_GIROUETTE = A1
+  // PIN_PLUVIOMETRE = A0
+  pinMode(4, INPUT);
+  pinMode(3, INPUT);
+
+  lcd.begin(16,2);
+  dht.begin();
+
+  
+  ////////////////////////////////////////////////
+  ///Prise anémo à brancher sur port digital/////
+  ////////////////////////////////////////////////
+  
+
+}
+
+void loop() {
+
+  
+  float tempo3 =0;
+  float vitesse = 0;
+  float vitesseRot=0;
+
+  float duree1;
+  float duree2;
+  int i,w;
+  int girouette;
+  String car_girouette ;
+
+
+  
+////////////////////////////////////////////////////
+//////////////Code pluviometre////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+ 
+  //Serial.setCursor(0,1);
+  //Serial.print("pluie = ");
+ // Serial.print(pluie);
+  
+  if(pluie_precedent == 1 && analogRead(A0) == 0)
+  {
+       pluie = pluie + 0.4 ;
+       pluie_precedent = 0;
+  }
+
+  if(pluie_precedent ==0 && analogRead(A0) == 1)
+  {
+       pluie_precedent = 1;
+  }
+
+
+
+////////////////////////////////////////////////////
+//////////////Code anemometre////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+
+
+////////fonction front montant////////
+
+  if(val_precedent == 0 && digitalRead(4) == 1)
+  {
+      val_precedent = 1;
+      dureeHaute = millis(); 
+      duree1 = (millis() - dureeBasse) ; //durée basse
+  }
+  
+  
+  if(val_precedent == 1 && digitalRead(4) == 0)
+  {
+     
+      val_precedent =0;  
+      duree2 = (millis() - dureeHaute) ; //durée haute
+      dureeBasse = millis();
+     
+  }
+
+////////////////////////////////////////////////////
+
+
+  
+/*
+  dureeBasse = pulseIn(4, LOW) / 1000;
+  dureeHaute = pulseIn(4, HIGH)/ 1000;
+
+
+  tempo3 =(dureeBasse + dureeHaute)/100;     //vitesse = VitRotation * rayon
+                                            // ici rayon = 7.5cm => 0.075m
+                                            // VitRotation = 2pi / tempo3
+                                            */
+
+  tempo3 = (duree1+duree2) ; 
+  vitesseRot = 60 / (tempo3 /1000);
+  
+  w = (vitesseRot*2*PI) / 60;
+  
+  vitesse = w*0.075;
+  if (vitesse_MAX < vitesse)
+  {
+    vitesse_MAX = vitesse*3.6; 
+  }
+/*
+  Serial.print("  vitesseRot = ");
+  Serial.print(vitesseRot);
+
+  Serial.print("  vitesse = ");
+  Serial.println(vitesse*3.6);
+  */
+////////////////////////////////////////////////////
+//////////////Code girouette////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+
+
+girouette = analogRead(A1);
+//Serial.println(girouette);
+
+  if (girouette > 785)
+  {
+     if (girouette <= 790)
+    {
+      car_girouette = "Nord";
+    }
+  }
+
+
+  if (girouette > 460)
+  {
+     if (girouette <= 470)
+    {
+      car_girouette = "Nord-Est";
+    }
+  }
+
+
+  if (girouette > 90)
+  {
+     if (girouette <= 100)
+    {
+      car_girouette = "Est";
+    }
+  }
+
+
+  if (girouette > 180)
+  {
+     if (girouette <= 190)
+    {
+      car_girouette = "Sud-Est";
+    }
+  }
+
+
+  if (girouette > 285)
+  {
+     if (girouette <= 295)
+    {
+      car_girouette = "Sud";
+    }
+  }
+
+
+  if (girouette > 630)
+  {
+     if (girouette <= 640)
+    {
+      car_girouette = "Sud-Ouest";
+    }
+  }
+
+  
+  if (girouette > 940)
+  {
+     if (girouette <= 950)
+    {
+      car_girouette = "Ouest";
+    }
+  }
+
+
+  if (girouette > 885)
+  {
+     if (girouette <=895)
+    {
+      car_girouette = "Nord-Ouest";
+    }
+  }
+
+
+
+  Serial.print("____Valeur enregistrée____");
+  Serial.print("Orientation vent = ");
+  Serial.print(car_girouette);
+
+  Serial.print("  Force vent = ");
+  Serial.print(vitesse*3.6);
+  Serial.print(" Km/h");
+
+  Serial.print("  pluie = ");
+  Serial.print(pluie);
+  Serial.println(" mm/m_carre");
+
+
+  /*
+  Serial.print("Temperature = ");
+  Serial.print(dht.readTemperature());
+  Serial.println(" °C");
+  Serial.print("Humiditee = ");
+  Serial.println(dht.readHumidity());
+  Serial.println("");
+
+  Serial.println("____Valeur MAX_____");
+  Serial.print("Pluie MAX = ");
+  Serial.print(Pluie_MAX);
+  Serial.println(" mm/m_carre");
+
+  Serial.print("vent MAX = ");
+  Serial.print(vitesse_MAX);
+  Serial.println(" Km/h");
+  Serial.println("");
+  */
+
+  
+  
+ delay(100);
+
+  
+
+
+
+
+
+
+
+  
+}
